@@ -1,0 +1,41 @@
+This recipe (scripts and docs) is MIT-licensed; see LICENSE. docker/Dockerfile
+and docker/serve.sh come from https://github.com/AlexBrandes/vllm and keep its
+Apache-2.0 licence. The recipe builds on, and runs, the following work under
+their own terms.
+
+Engine
+- vLLM (https://github.com/vllm-project/vllm), Apache-2.0. The image is
+  upstream vLLM's wheel for commit a0d7356b98, the fork's DeepSeek-V4.1 vLLM
+  branch over it and the vllm-cmp170hx plugin, all from
+  https://github.com/AlexBrandes/vllm, also Apache-2.0 (see that repository's
+  NOTICE), on NVIDIA's CUDA 13.0 Ubuntu 24.04 base image.
+- The plugin's EXL3 codec is adapted from turboderp's ExLlamaV3
+  (https://github.com/turboderp-org/exllamav3), MIT (copy in
+  licenses/ExLlamaV3.LICENSE).
+- The plugin's layout, startup guard and seam tooling are derived from
+  vllm-sm80 by Morrowmake (https://github.com/Morrowmake/vllm-cmp170hx),
+  Apache-2.0.
+
+Model
+- DeepSeek-V4.1-Flash-1017 by DeepSeek, MIT (copy in
+  licenses/DeepSeek-V4.1-Flash.LICENSE). The checkpoint
+  codebrandes/DeepSeek-V4.1-Flash-1017-A4NX-2.2bpw and its INT8 dense weights
+  are derivatives under the same licence. It was converted with a fork of
+  turboderp's ExLlamaV3 (https://github.com/AlexBrandes/exllamav3, branch
+  a4nx at 6cfd44b2, MIT).
+- The Engram tables are DeepSeek's own files; download.sh fetches them from
+  deepseek-ai/DeepSeek-V4.1-Flash-1017.
+- This repository ships no weights: download.sh fetches the checkpoint and the
+  Engram tables from their model pages.
+
+Benchmarks
+- Speed tables use the sparkDash protocol (MiaAI-Lab/sparkDash, commit
+  3e6d4ef, Apache-2.0); its prompts are used as data with attribution.
+- GSM8K (OpenAI, MIT) as distributed with vLLM's tests/evals/gsm8k; HumanEval+
+  (EvalPlus, Apache-2.0; HumanEval by OpenAI, MIT); IFEval (Google, Apache-2.0)
+  with its instruction checkers; MMLU (Hendrycks et al., MIT); RULER (NVIDIA,
+  Apache-2.0).
+- Distance from the original: WikiText-2 (Merity et al., CC BY-SA 3.0).
+
+Not affiliated with NVIDIA, DeepSeek, turboderp, the vLLM project or any of the
+projects above.
